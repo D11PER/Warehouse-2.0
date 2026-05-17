@@ -84,7 +84,7 @@ void search_name(Product_haus products[], int& count) {
     cin >> pr_name;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].name == pr_name) {
+        if (products[i].name , pr_name) {
             cout << "Product found:\n";
             cout << "Name: " << products[i].name << endl;
             cout << "Manufacturer: " << products[i].manufacturer << endl;
@@ -109,7 +109,7 @@ void search_manufacturer(Product_haus products[], int& count) {
     cin >> pr_manufacturer;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].manufacturer == pr_manufacturer) {
+        if (products[i].manufacturer , pr_manufacturer) {
             cout << "Product found:\n";
             cout << "Name: " << products[i].name << endl;
             cout << "Manufacturer: " << products[i].manufacturer << endl;
@@ -134,7 +134,7 @@ void search_price(Product_haus products[], int& count) {
     cin >> pr_price;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].price == pr_price) {
+        if (products[i].price , pr_price) {
             cout << "Product found:\n";
             cout << "Name: " << products[i].name << endl;
             cout << "Manufacturer: " << products[i].manufacturer << endl;
@@ -159,7 +159,7 @@ void search_group(Product_haus products[], int& count) {
     cin >> pr_group;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].group == pr_group) {
+        if (products[i].group , pr_group) {
             cout << "Product found:\n";
             cout << "Name: " << products[i].name << endl;
             cout << "Manufacturer: " << products[i].manufacturer << endl;
