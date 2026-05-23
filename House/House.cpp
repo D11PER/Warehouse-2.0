@@ -13,7 +13,7 @@ struct Product_haus {
     char expirationDate[30];
 };
 
-// Own string functions
+// Own  functions
 int str_equal(const char* a, const char* b) {
     while (*a && *b) {
         if (*a != *b) return 0;
