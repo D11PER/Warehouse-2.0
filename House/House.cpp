@@ -3,23 +3,36 @@ using namespace std;
 
 #define MAX_PRODUCT 50
 
-
-
-//Sructure of Products--------
+//Structure of Products
 struct Product_haus {
-    char name[50];            // Product name
-    char manufacturer[50];    // Manufacturer
-    char group[30];           // Product group (e.g., water, canned food)
-    double price;             // Price
-    char arrivalDate[30];     // Arrival date (e.g., "2026-05-14")
-    char expirationDate[30];  // Expiration date
+    char name[50];
+    char manufacturer[50];
+    char group[30];
+    double price;
+    char arrivalDate[30];
+    char expirationDate[30];
 };
-//------------------
 
+// Own string functions
+int str_equal(const char* a, const char* b) {
+    while (*a && *b) {
+        if (*a != *b) return 0;
+        a++;
+        b++;
+    }
+    return *a == *b;
+}
 
+int str_greater(const char* a, const char* b) {
+    while (*a && *b) {
+        if (*a != *b) return *a > *b;
+        a++;
+        b++;
+    }
+    return *a > *b;
+}
 
-
-//num1 Add Function---------------
+//num1 Add Function
 void add_product(Product_haus products[], int& count) {
     if (count >= MAX_PRODUCT) {
         cout << "Warehouse is full. Cannot add more products." << endl;
@@ -46,19 +59,25 @@ void add_product(Product_haus products[], int& count) {
 
     count++;
 }
-//----------------
 
-//num2 Del Function ----------------
+//num2 Delete Function
 void dell_product(Product_haus products[], int& count, int neg) {
+    if (neg < 0 || neg >= count) {
+        cout << "Invalid position!" << endl;
+        return;
+    }
     for (int i = neg; i < count - 1; i++) {
         products[i] = products[i + 1];
     }
-    count--; // reduce the product in structure of Products
+    count--;
 }
-//-----------------
 
-//num3 Replace-------------------
+//num3 Replace Function
 void replace_product(Product_haus products[], int& count, int& pos) {
+    if (pos < 0 || pos >= count) {
+        cout << "Invalid position!" << endl;
+        return;
+    }
     cout << "Enter new product name: ";
     cin >> products[pos].name;
     cout << "Enter new manufacturer: ";
@@ -73,169 +92,126 @@ void replace_product(Product_haus products[], int& count, int& pos) {
     cin >> products[pos].expirationDate;
 }
 
-//NUM4 Search by (name, manufacturer, price, group, arrival date, expiration date) ----------------------------------------
+// Helper: print one product
+void print_one(Product_haus& p) {
+    cout << "Name: "            << p.name           << endl;
+    cout << "Manufacturer: "    << p.manufacturer   << endl;
+    cout << "Group: "           << p.group          << endl;
+    cout << "Price: "           << p.price          << endl;
+    cout << "Arrival date: "    << p.arrivalDate    << endl;
+    cout << "Expiration date: " << p.expirationDate << endl;
+    cout << "----------------------------" << endl;
+}
 
-//Search by Name product
+//NUM4 Search functions
+
 void search_name(Product_haus products[], int& count) {
     char pr_name[50];
     int found = 0;
 
-    cout << "Enter product name: " << endl;
+    cout << "Enter product name: ";
     cin >> pr_name;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].name , pr_name) {
+        if (str_equal(products[i].name, pr_name)) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Name" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
-//Search by Manufacturer product
 void search_manufacturer(Product_haus products[], int& count) {
     char pr_manufacturer[50];
     int found = 0;
 
-    cout << "Enter product manufacturer" << endl;
+    cout << "Enter manufacturer: ";
     cin >> pr_manufacturer;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].manufacturer , pr_manufacturer) {
+        if (str_equal(products[i].manufacturer, pr_manufacturer)) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Manufacturer" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
-//Search by Price product
 void search_price(Product_haus products[], int& count) {
     double pr_price;
     int found = 0;
 
-    cout << "Enter product price" << endl;
+    cout << "Enter price: ";
     cin >> pr_price;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].price , pr_price) {
+        if (products[i].price == pr_price) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Price" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
-//Search by Group product
 void search_group(Product_haus products[], int& count) {
-    char pr_group[50];
+    char pr_group[30];
     int found = 0;
 
-    cout << "Enter product group" << endl;
+    cout << "Enter product group: ";
     cin >> pr_group;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].group , pr_group) {
+        if (str_equal(products[i].group, pr_group)) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Group" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
-//Search by Arrivel date product
 void search_arriveldate(Product_haus products[], int& count) {
-    int pr_arrdate;
+    char pr_arrdate[30];
     int found = 0;
 
-    cout << "Enter product group" << endl;
+    cout << "Enter arrival date (YYYY-MM-DD): ";
     cin >> pr_arrdate;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].arrivalDate, pr_arrdate) {
+        if (str_equal(products[i].arrivalDate, pr_arrdate)) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Group" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
-// Search by Expiration date:
 void search_expirationdate(Product_haus products[], int& count) {
-    int pr_expdate;
+    char pr_expdate[30];
     int found = 0;
 
-    cout << "Enter product group" << endl;
+    cout << "Enter expiration date (YYYY-MM-DD): ";
     cin >> pr_expdate;
 
     for (int i = 0; i < count; i++) {
-        if (products[i].expirationDate, pr_expdate) {
+        if (str_equal(products[i].expirationDate, pr_expdate)) {
             cout << "Product found:\n";
-            cout << "Name: " << products[i].name << endl;
-            cout << "Manufacturer: " << products[i].manufacturer << endl;
-            cout << "Group: " << products[i].group << endl;
-            cout << "Price: " << products[i].price << endl;
-            cout << "Arrival date: " << products[i].arrivalDate << endl;
-            cout << "Expiration date: " << products[i].expirationDate << endl;
+            print_one(products[i]);
             found = 1;
         }
     }
-    if (found == 0) {
-        cout << "Error Arriveldate" << endl;
-    }
+    if (found == 0) cout << "Product not found!" << endl;
 }
 
+//NUM5 Sort functions
 
-//NUM5 Sort by (price, group) ----------------------------------
-
-
-// Sort by Price product
 void sort_by_price(Product_haus products[], int count) {
-
     for (int i = 0; i < count - 1; i++) {
-
         for (int j = 0; j < count - i - 1; j++) {
-
             if (products[j].price > products[j + 1].price) {
                 Product_haus tmp = products[j];
                 products[j] = products[j + 1];
@@ -243,59 +219,52 @@ void sort_by_price(Product_haus products[], int count) {
             }
         }
     }
+    cout << "Sorted by price." << endl;
 }
 
-//Sort by Group product
 void sort_by_group(Product_haus products[], int count) {
-
-    for (size_t i = 0; i < count - 1; i++) {
-
-        for (size_t j = 0; j < count - i - 1; j++) {
-
-            if (products[j].group > products[j + 1].group) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (str_greater(products[j].group, products[j + 1].group)) {
                 Product_haus srt = products[j];
                 products[j] = products[j + 1];
                 products[j + 1] = srt;
             }
         }
     }
+    cout << "Sorted by group." << endl;
 }
 
-//Show all products
+// Show all products
 void show_product(Product_haus products[], int count) {
-    for (size_t i = 0; i < count; i++) {
-        cout << "Product found:\n";
-        cout << "Name: " << products[i].name << endl;
-        cout << "Manufacturer: " << products[i].manufacturer << endl;
-        cout << "Group: " << products[i].group << endl;
-        cout << "Price: " << products[i].price << endl;
-        cout << "Arrival date: " << products[i].arrivalDate << endl;
-        cout << "Expiration date: " << products[i].expirationDate << endl;
+    if (count == 0) {
+        cout << "Warehouse is empty." << endl;
+        return;
+    }
+    for (int i = 0; i < count; i++) {
+        cout << "#" << i + 1 << endl;
+        print_one(products[i]);
     }
 }
-
 
 void print_struct_array(Product_haus* products, int count) {
     for (int i = 0; i < count; i++) {
-        cout << i + 1 << "Name: " << products[i].name << "Manufacturer: " << products[i].manufacturer
-            << "Group: " << products[i].group
-            << "Price: " << products[i].price
-            << "Arrival: " << products[i].arrivalDate
-            << "Expiration: " << products[i].expirationDate
-            << endl;
+        cout << "#" << i + 1
+             << " Name: "        << products[i].name
+             << " | Manufacturer: " << products[i].manufacturer
+             << " | Group: "     << products[i].group
+             << " | Price: "     << products[i].price
+             << " | Arrival: "   << products[i].arrivalDate
+             << " | Expiration: "<< products[i].expirationDate
+             << endl;
     }
 }
 
-
-
 int main() {
-
-
     Product_haus products[MAX_PRODUCT];
     int count = 0;
     int choice = 0;
 
-    //Products
     products[0] = { "Milk",   "Farm",      "Food",   25.5, "2026-05-14", "2026-06-14" };
     products[1] = { "Water",  "Spring",    "Drink",  10.0, "2026-05-15", "2026-07-15" };
     products[2] = { "Bread",  "Bakery",    "Food",   15.0, "2026-05-16", "2026-05-20" };
@@ -306,7 +275,6 @@ int main() {
     products[7] = { "Rice",   "GrainCo",   "Cereal", 18.0, "2026-05-01", "2027-05-01" };
     products[8] = { "Sugar",  "SweetCo",   "Cereal", 22.0, "2026-04-20", "2027-04-20" };
     products[9] = { "Oil",    "GoldPress", "Food",   60.0, "2026-05-05", "2026-11-05" };
-
     count = 10;
 
     cout << "Input data:\n";
